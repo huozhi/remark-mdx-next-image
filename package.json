@@ -1,0 +1,12 @@
+{
+  "name": "remark-mdx-next-image",
+  "version": "0.0.1",
+  "description": "transform mdx image to next image",
+  "main": "index.js",
+  "repository": "git@github.com:huozhi/remark-mdx-next-image.git",
+  "author": "huozhi",
+  "license": "MIT",
+  "dependencies": {
+    "unist-util-visit-parents": "3.1.1"
+  }
+}
