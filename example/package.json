@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "devDependencies": {
+    "@mdx-js/loader": "1.6.22",
+    "next": "10.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  }
+}

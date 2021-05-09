@@ -3,10 +3,16 @@
   "version": "0.0.1",
   "description": "transform mdx image to next image",
   "main": "index.js",
-  "repository": "git@github.com:huozhi/remark-mdx-next-image.git",
+  "repository": "https://github.com/huozhi/remark-mdx-next-image",
   "author": "huozhi",
   "license": "MIT",
+  "files": [
+    "index.js"
+  ],
   "dependencies": {
     "unist-util-visit-parents": "3.1.1"
+  },
+  "peerDependencies": {
+    "@mdx-js/loader": "> 1 && < 2"
   }
 }
