@@ -1,36 +1,48 @@
 const visit = require('unist-util-visit-parents')
 
-const getStringProps = (node, keys) => {
-  return keys.reduce((str, key) => {
-    const value = node[key]
-    const prop = (typeof value === 'string' && value) ? `${key}="${value}"` : ''
-    return str + ' ' + prop
-  }, '') 
+function stringifyImageProp(node, prop) {
+  return node[prop] ? `${prop}="${node[prop]}"` : ''
+}
+
+function createNextImageNode(node, imageImportIdentifier) {
+  const nextImageNode = {
+    type: 'jsx',
+    value: `<NextImage src={${imageImportIdentifier}}` + 
+      `${stringifyImageProp(node, 'title')} ` +
+      `${stringifyImageProp(node, 'alt')} />`,
+    position: node.position,
+    indent: node.indent,
+  }
+  return nextImageNode
 }
 
 function transformNextImage(tree) {
-  visit(tree, 'root', (node) => {
-    node.children.unshift({
-      type: 'import',
-      value: `import NextImage from 'next/image'`,
-    })
-  })
-
+  let hasInjectedImage = false
+  let imageIndex = 0
   visit(tree, 'image', (node, parents) => {
-    const nextImageNode = {
-      type: 'jsx',
-      value: `<NextImage src="${node.url}" width="100%" height="auto" layout="responsive" ${getStringProps(node, ['title', 'alt'])} />`,
-      position: node.position,
-      indent: node.indent,
-    }
     const parent = parents[parents.length - 1]
-    const siblings = parent.children
-    // next/image rendered `<div>` cannot be contained inside `<p>`
     if (parent.type === 'paragraph') {
       parent.type = 'div'
+      parent.attributes = []
+      delete parent.value
+      delete parent.position
+
+      const siblings = parent.children
+      siblings.splice(siblings.indexOf(node), 1)
+      if (!hasInjectedImage) {
+        tree.children.unshift({
+          type: 'import',
+          value: `import NextImage from 'next/image'`,
+        })
+        hasInjectedImage = true
+      }
+      const imageImportIdentifier = `imageSrc${imageIndex++}`
+      tree.children.unshift({
+        type: 'import',
+        value: `import ${imageImportIdentifier} from '${node.url}'`,
+      })
+      siblings.push(createNextImageNode(node, imageImportIdentifier))
     }
-    // replace <img> => <NextImage>
-    siblings[siblings.indexOf(node)] = nextImageNode
   })
 }
 

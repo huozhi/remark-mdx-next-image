@@ -1,7 +1,6 @@
 const transformNextImage = require('..')
 
 module.exports = (phase, { defaultConfig }) => {
-  const pageExtensions = ['md', 'mdx'].concat(defaultConfig.pageExtensions)
   const webpack = (config, options) => {
     config.module.rules.push(
       {
@@ -15,18 +14,14 @@ module.exports = (phase, { defaultConfig }) => {
                 transformNextImage
               ]
             },
-          }
+          },
         ],
       }
     )
     return config
   }
   return {
-    ...defaultConfig,
-    pageExtensions,
+    pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
     webpack,
-    images: {
-      domains: ['user-images.githubusercontent.com']
-    }
   } 
 }

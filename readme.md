@@ -3,21 +3,18 @@
 
 ### Effects
 
-markdown
-
+Markdown
 ```md
-![img](https://some.where/image.png)
+![background](../images/image.png)
 ```
 
 JSX
 ```jsx
 import NextImage from 'next/image'
- 
-<NextImage 
-  src="https://some.where/image.png"
-  layout="responsive"
-  {/* ... other props ... */}
-/>
+import imageSrc0 from '../images/image.png
+
+// transform to static images by using next/image
+<NextImage src={imageSrc0} alt="background" />
 ```
 
 ### Usage
