@@ -1,6 +1,6 @@
 {
   "name": "remark-mdx-next-image",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "transform mdx image to next image",
   "main": "index.js",
   "repository": "https://github.com/huozhi/remark-mdx-next-image",
